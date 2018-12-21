@@ -15,16 +15,16 @@ def display_sample(num):
     #Reshape the 768 values to a 28x28 image
     image = mnist.train.images[num].reshape([28,28])
     
-    plt.title('Sample: %d   Lable: %d' % (num, label))
+    plt.title('Sample: %d   Label: %d' % (num, label))
     plt.imshow(image, cmap=plt.get_cmap('gray_r'))
     plt.show()
 
 #display_sample(1234)
-images = mnist.train.images[0].reshape([1,784])
-for i in range(1, 500):
-    images = np.concatenate((images, mnist.train.images[i].reshape([1,784])))
-plt.imshow(images, cmap=plt.get_cmap('gray_r'))
-plt.show()
+# images = mnist.train.images[0].reshape([1,784])
+# for i in range(1, 500):
+#     images = np.concatenate((images, mnist.train.images[i].reshape([1,784])))
+# plt.imshow(images, cmap=plt.get_cmap('gray_r'))
+# plt.show()
 
 input_images = tf.placeholder(tf.float32, shape=[None, 784])
 target_labels = tf.placeholder(tf.float32, shape=[None, 10])
@@ -56,6 +56,13 @@ for x in range(2000):
     if ((x+1) % 100 == 0):
         print("Training epoch: " + str(x+1))
         print("Accuracy: " + str(accuracy.eval(feed_dict={input_images: mnist.test.images, target_labels: mnist.test.labels})))
-    
 
-
+for x in range(100):
+    x_train = mnist.test.images[x,:].reshape(1, 784)
+    y_train = mnist.test.labels[x,:]
+    label = y_train.argmax()
+    prediction = sess.run(digit_weights, feed_dict={input_images: x_train}).argmax()
+    if (prediction != label):
+        plt.title('Prediction: %d Label: %d' % (prediction, label))
+        plt.imshow(x_train.reshape([28,28]), cmap=plt.get_cmap('gray_r'))
+        plt.show()
