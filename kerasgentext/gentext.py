@@ -25,8 +25,11 @@ print('corpus length:', len(text))
 
 chars = sorted(list(set(text)))
 print('total chars:', len(chars))
+print('characters:', chars)
 char_indices = dict((c, i) for i, c in enumerate(chars))
 indices_char = dict((i, c) for i, c in enumerate(chars))
+print ('char indices', char_indices)
+print ('indices char', indices_char)
 
 # cut the text in semi-redundant sequences of maxlen characters
 maxlen = 40
